@@ -1,0 +1,5 @@
+__pycache__
+*.fst
+test_data
+unit_test.py
+*.txt
