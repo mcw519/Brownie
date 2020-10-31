@@ -6,7 +6,7 @@ from tokenizer import Tokenizer
 
 
 class GrammarHelper():
-    def __init__(self, words, phones, jieba_lex):
+    def __init__(self, words, phones, jieba_lex=None):
         # initial basic English, Punctuation and special symbol char in sigma_star, ASCII
         self.chars = [ chr(i) for i in range(1, 91) ] + [ r"\[", r"\\", r"\]" ] + [ chr(i) for i in range(94, 256) ]
         self.data_io = DataIO()
@@ -14,7 +14,10 @@ class GrammarHelper():
         self.phone_tb = self.load_symbols(phones)
         
         # init tokenizer
-        self.tokenizer = Tokenizer(backend="jieba", jieba_dict=jieba_lex)
+        if jieba_lex is not None:
+            self.tokenizer = Tokenizer(backend="jieba", jieba_dict=jieba_lex)
+        else:
+            self.tokenizer = Tokenizer(backend="jieba")
 
     def load_symbols(self, symbol_table):
         '''
@@ -320,7 +323,7 @@ class GrammarHelper():
 
 
 class TagHelper(GrammarHelper):
-    def __init__(self, words, phones, jieba_lex):
+    def __init__(self, words, phones, jieba_lex=None):
         super().__init__(words, phones, jieba_lex)
         self.sigma_star_fst_1state = self.gen_sigma_star_1state()
         self.sigma_star_fst_2state = self.gen_sigma_star_2state()

@@ -98,8 +98,8 @@ class UserTableReader(DataIO):
 
 
 class UserCustomGraph(UserTableReader):
-    def __init__(self, jieba_lex, user_table, wd_table_path, phone_table_path, zh_syllable_table_path, \
-                    encode="utf-8", split_space=" "):
+    def __init__(self, user_table, wd_table_path, phone_table_path, zh_syllable_table_path, \
+                    jieba_lex=None, encode="utf-8", split_space=" "):
         """
             wd_table must be as same as decoding graph used.
             Args:
@@ -110,7 +110,11 @@ class UserCustomGraph(UserTableReader):
             phone_table_path=phone_table_path, zh_syllable_table_path=zh_syllable_table_path)
 
         self.user_dct, self.oov_list = self.read_user_table(user_table)
-        self.tokenizer = Tokenizer(backend="jieba", jieba_dict=jieba_lex) ## need a Jieba dictionay
+
+        if jieba_lex is not None:
+            self.tokenizer = Tokenizer(backend="jieba", jieba_dict=jieba_lex) ## need a Jieba dictionay
+        else:
+            self.tokenizer = Tokenizer(backend="jieba")
 
     def contextFST(self):
         return self.get_contextFST()
