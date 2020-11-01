@@ -2,7 +2,7 @@
 
 import jieba
 import jieba.posseg as pseg
-#import hanlp
+import hanlp
 
 
 class HanlpTokenizer():
@@ -107,7 +107,6 @@ class Tokenizer():
                 self.segmenter = JiebaTokenizer()
         
         elif backend == "hanlp":
-            from tokenizer import HanlpTokenizer
             self.segmenter = HanlpTokenizer()
     
     def segment(self, x, mode="segment"):

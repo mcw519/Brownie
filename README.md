@@ -54,7 +54,12 @@ sudo make install
 ```
 
 ### Pynini
-
 ```
 conda install -c conda-forge pynini=2.1.0
+```
+
+### Others
+Handling Mandarin language will need a Chonese tokenizer. Here we has a high level interface named Tokenizer() to use two different backend [Jieba](https://github.com/fxsjy/jieba) and [HanLP](https://github.com/hankcs/HanLP) to segment OOV words.  
+```
+pip install -r requirments.txt
 ```
