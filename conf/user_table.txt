@@ -1,0 +1,4 @@
+Phrase,SoundsLike,IPA,DisplayAs
+世界博覽會,shi4-jie4-bo4-lan3-hui4,,世博會
+一個巨星的誕生,,,一個巨星的誕生
+EMMA ROSE,,EH1 M AH0 R OW1 Z,emmarose,

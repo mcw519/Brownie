@@ -2,7 +2,7 @@
 
 import jieba
 import jieba.posseg as pseg
-import hanlp
+#import hanlp
 
 
 class HanlpTokenizer():
@@ -98,9 +98,7 @@ class Tokenizer():
     def __init__(self, backend="jieba", jieba_dict=None):
         self.backend = backend
 
-        if backend == "jieba":
-            from tokenizer import JiebaTokenizer
-            
+        if backend == "jieba":            
             if jieba_dict is not None:
                 self.segmenter = JiebaTokenizer(jieba_dict)
             else:

@@ -2,9 +2,26 @@
 Browine is a post-processing project for FST-based Automatic Speech Recognition.
 
 ## Goal
-In this project the goal is increasing the recognition accuracy for ASR result more closer to user's application on specific domain name entity.  
+In this project the goal is increasing the recognition accuracy for ASR result more closer to user's application on specific domain Name Entity(NE).  
 
-## How would you generate personal grammar?
+## Usage
+### From FST
+Like Kaldi or others FST-based decoder, the hypothesis conld be think as lattice or FSA/FST.  
+This usage could see run.py as example.
+
+### From text string
+If you could only get hypothesis in string type like using public Speech2Text API, you could use below method to convert it as FST:
+```
+from src.common import get_result, read_string_as_fst
+from src.utils import sym2int, DataIO
+
+hyp_list = DataIO().read_file_to_list("test.txt")
+for _, hyp in enumerate(hyp_list):
+    hyp_int = sym2int(" ".join(hyp_fst[0]), input_word_table)
+    fst = read_string_as_fst(hyp_int)
+```
+
+## How to generate personal grammar?
 ### Define custom vocabularies
 If you have been used [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary.html) you must be familier this setting.  
 

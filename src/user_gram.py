@@ -1,8 +1,11 @@
+# Copyright 2020 (author: Meng Wu)
+
 import pynini
 import itertools
 import re
-from utils import DataIO, lex_add_disambig
-from tokenizer import Tokenizer
+from .utils import DataIO, lex_add_disambig
+from .tokenizer import Tokenizer
+from .common import fst_to_linear_sequence
 
 
 class GrammarHelper():
@@ -83,7 +86,7 @@ class GrammarHelper():
                         raise ValueError("symbol not in symbol table")
             
             _fst.add_state()
-            _fst.add_arc(cur_state, pynini.Arc(_arc_in, _arc_out, _arc_weight, cur_state + 1))
+            _fst.add_arc(cur_state, pynini.Arc(int(_arc_in), int(_arc_out), _arc_weight, cur_state + 1))
             cur_state += 1
         
         _fst.set_start(0)
@@ -544,3 +547,37 @@ class TagHelper(GrammarHelper):
             _grammar_fst.union(_gfst)
 
         return _grammar_fst.optimize()
+    
+    def generate_replace_fst(self, fst_in, nonterminal_in, nonterminal_out, syms_tb):
+        _arc_weight = pynini.Weight("tropical", 0)
+
+        fst_in_seq = fst_to_linear_sequence(fst_in)
+        ne_fst = pynini.Fst()
+        ne_fst.add_state()
+        ne_fst.set_start(0)
+        ne_fst.set_final(0)
+
+        for i in fst_in_seq.split():
+            _fst = self.pair2fst(["0", i])
+            ne_fst = ne_fst + _fst
+        ne_fst.optimize()
+
+        terminal_in_fst = pynini.Fst()
+        terminal_in_fst.add_states(2)
+        _arc_in = int(syms_tb[nonterminal_in])
+        _arc_out = int(syms_tb["<eps>"])
+        terminal_in_fst.add_arc(0, pynini.Arc(_arc_in, _arc_out, _arc_weight, 1))
+        terminal_in_fst.set_start(0)
+        terminal_in_fst.set_final(1)
+
+        terminal_out_fst = pynini.Fst()
+        terminal_out_fst.add_states(2)
+        _arc_in = int(syms_tb[nonterminal_out])
+        _arc_out = int(syms_tb["<eps>"])
+        terminal_out_fst.add_arc(0, pynini.Arc(_arc_in, _arc_out, _arc_weight, 1))
+        terminal_out_fst.set_start(0)
+        terminal_out_fst.set_final(1)
+
+        replace_fst = self.sigma_star_fst_1state + terminal_in_fst + self.sigma_star_fst_2state_filter + self.sigma_star_fst_1state_filter + ne_fst + terminal_out_fst + self.sigma_star_fst_1state
+
+        return replace_fst

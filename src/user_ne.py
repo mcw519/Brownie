@@ -1,8 +1,10 @@
+# Copyright 2020 (author: Meng Wu)
+
 import io
-from utils import DataIO, make_context_fst, update_wd_table
-from tokenizer import Tokenizer
+from .utils import DataIO, make_context_fst, update_wd_table
+from .tokenizer import Tokenizer
 import pynini
-from common import list2fst
+from .common import list2fst
 
 
 class UserTableReader(DataIO):

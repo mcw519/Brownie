@@ -1,3 +1,5 @@
+# Copyright 2020 (author: Meng Wu)
+
 import io
 import math
 
@@ -89,13 +91,19 @@ def update_wd_table(wd_table, oov_list):
         raise TypeError("need a list")
 
     for i in oov_list:
-        wd_table.update({i: str(len(wd_table.keys()))})
+        try:
+            # avoid repeatedly update inside class method
+            wd_table[i]
+            continue
+
+        except KeyError:
+            wd_table.update({i: str(len(wd_table.keys()))})
 
     return wd_table
 
 
 def make_context_fst(x, weight=True):
-    '''
+    """
     read a Kaldi lexicon format list.
         <word1> <weight> <sub-word1> <sub-word2> <...>
         example:
@@ -105,7 +113,7 @@ def make_context_fst(x, weight=True):
             每日一物 100 每日 一物
     Returns:
         List with FST format.
-    '''
+    """
     C = x
     C_fst = []
     state = int(0)
@@ -144,3 +152,48 @@ def make_context_fst(x, weight=True):
         C_fst.append(['0','0']) # add end
 
     return C_fst
+
+
+def sym2int(x, syms_table):
+    """
+        convert string to int sequence
+        Input:
+            x: string
+            syms_table: dict
+    """
+
+    x = x.strip().split()
+    result = []
+    
+    try:
+        for _, i in enumerate(x):
+            x_int = str(syms_table[i])
+            result.append(x_int)
+    
+        return " ".join(result)
+    
+    except:
+        raise KeyError("some words in string not in the provided symbol table")
+
+
+def int2sym(x, syms_table):
+    """
+        convert int sequence to string
+        Input:
+            x: string
+            syms_table: dict
+    """
+    syms_table = {v: k for k, v in syms_table.items()}
+
+    x = x.strip().split()
+    result = []
+    
+    try:
+        for _, i in enumerate(x):
+            x_sym = str(syms_table[i])
+            result.append(x_sym)
+    
+        return " ".join(result)
+    
+    except:
+        raise KeyError("some words in string not in the provided symbol table")
