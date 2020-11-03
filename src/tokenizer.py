@@ -44,14 +44,18 @@ class HanlpTokenizer():
 
 
 class JiebaTokenizer():
-    def __init__(self, dict_file=None, cut_all=False, hmm=False):
+    def __init__(self, dict_file=None, cut_all=False, hmm=False, tk_mode="default"):
         self.cut_all = cut_all
         self.hmm = hmm
+        self.tk_mode = tk_mode
         
         if dict_file is not None:
             jieba.set_dictionary(dict_file)
 
-        self.ws_pos = pseg.POSTokenizer(jieba.dt)
+        if tk_mode == "default":
+            self.wd_pos = jieba.Tokenizer()
+        else:
+            self.ws_pos = pseg.POSTokenizer(jieba.dt)
 
     def reload_dict(self, dict_file):
         jieba.set_dictionary(dict_file)
