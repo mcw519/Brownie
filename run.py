@@ -14,7 +14,7 @@ phones_path = conf_path + "/phones.txt"
 lex_path = conf_path + "/lexicon.txt"
 user_table_path = conf_path + "/user_table.txt"
 zh_syllable_path = conf_path + "/zh_syllable.txt"
-jieba_lex_path = conf_path + "/jieba.lex"
+jieba_lex_path = conf_path + "/jieba.lex.txt"
 
 # load hypothesis fst
 hyp_fst = load_fst(hyp_fst_path)
