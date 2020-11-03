@@ -70,10 +70,14 @@ def read_string_as_fst(x):
 
 def compose(fst1, fst2, direction="right", project=None):
     """
+        overwrite FST compose function, if compose is nothing return source fst to avoid get empty result
         Args:
             direction: (string)
                 right: fst1 o fst2
                 left: fst2 o fst1
+            project: (string)
+                input: fst project input
+                output: fst project output
     """
     if direction == "right":
         fst = pynini.compose(fst1, fst2)
@@ -105,8 +109,9 @@ def union(*args):
 
 def get_result(x, *args):
     for arg in args:
-        x = pynini.compose(x, arg)
-    
+        #x = pynini.compose(x, arg)
+        x = compose(x, arg)
+
     x.project("output")
     x.optimize()
     x = pynini.shortestpath(x)

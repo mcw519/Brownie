@@ -1,23 +1,30 @@
 # Browine
-Browine is a post-processing project for FST-based Automatic Speech Recognition.
+Browine is a post-processing project for FST-based Automatic Speech Recognition.   
 
 ## Goal
-In this project the goal is increasing the recognition accuracy for ASR result more closer to user's application on specific domain Name Entity(NE).  
+Although there are lots of speech-to-text API now, sometimes we are feel not easy to using it. Because the recognition result is impossible 100% correct especially on we are trying to deploy it in application like make a phone call in personal phone book, specific domain chatbot and so on.  
+In this project the goal is increasing the recognition accuracy for ASR result more closer to user's application on specific domain Named Entities(NE).  
+
+## Reference
+1. Contextual Recovery of Out-of-Lattice Named Entities in Automatic Speech Recognition, [this link](https://research.google/pubs/pub48647/)
 
 ## Usage
-### From FST
+The major data format follows [Kaldi](https://github.com/kaldi-asr/kaldi) definition.  
+
+### Starting from FST
 Like Kaldi or others FST-based decoder, the hypothesis conld be think as lattice or FSA/FST.  
 This usage could see run.py as example.
 
-### From text string
-If you could only get hypothesis in string type like using public Speech2Text API, you could use below method to convert it as FST:
+### Starting from text string
+If you could only get hypothesis in string type like using public Speech2Text API or other E2E decoder, you could use below method to convert it as FST:
 ```
-from src.common import get_result, read_string_as_fst
+from src.common import read_string_as_fst
 from src.utils import sym2int, DataIO
 
 hyp_list = DataIO().read_file_to_list("test.txt")
+input_word_table = DataIO().read_word_table("words.txt")
 for _, hyp in enumerate(hyp_list):
-    hyp_int = sym2int(" ".join(hyp_fst[0]), input_word_table)
+    hyp_int = sym2int(" ".join(hyp), input_word_table)
     fst = read_string_as_fst(hyp_int)
 ```
 

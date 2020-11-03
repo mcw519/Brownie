@@ -1,9 +1,9 @@
 # Copyright 2020 (author: Meng Wu)
 
 import io
+import pynini
 from .utils import DataIO, make_context_fst, update_wd_table
 from .tokenizer import Tokenizer
-import pynini
 from .common import list2fst
 
 
@@ -195,7 +195,7 @@ class UserCustomGraph(UserTableReader):
 
                 except:
                     continue
-                
+
                 soundslike_lex.append(_c.split())
 
         return list2fst(make_context_fst(soundslike_lex, weight=False), self.phone_table, self.word_table())

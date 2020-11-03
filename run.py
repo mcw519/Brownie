@@ -46,12 +46,12 @@ user_graph = union(fstC, fstS, fstI)
 all_graph = [ fstG_subgraph, Lfst_invert, user_graph ]
 
 tag_hyp = compose(hyp_fst, fstG)
-tag_hyp.write("tag.fst")
+# tag_hyp.write("tag.fst")
 ne_result = get_result(hyp_fst, *all_graph)
-ne_result.write("ne_result.fst")
+# ne_result.write("ne_result.fst")
 
 Rfst = helperG.generate_replace_fst(ne_result, nonterminal_in="<CONTACT>", nonterminal_out="</CONTACT>", syms_tb=user_word_table)
-Rfst.write("Rfst.fst")
+# Rfst.write("Rfst.fst")
 result = get_result(tag_hyp, Rfst)
 
 print("input is:", int2sym(fst_to_linear_sequence(hyp_fst), syms_table=user_word_table))
