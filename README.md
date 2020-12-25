@@ -1,5 +1,5 @@
-# Browine
-Browine is a post-processing project for FST-based Automatic Speech Recognition.   
+# Brownie
+Brownie is a post-processing project for FST-based Automatic Speech Recognition.   
 
 ## Goal
 Although there are lots of speech-to-text API now, sometimes we are feel not easy to using it. Because the recognition result is impossible 100% correct especially on we are trying to deploy it in application like make a phone call in personal phone book, specific domain chatbot and so on.  
